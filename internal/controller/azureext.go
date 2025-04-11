@@ -18,18 +18,20 @@ package controller
 
 import (
 	"github.com/crossplane/crossplane-runtime/pkg/controller"
+	"github.com/qbeast-io/provider-azureext/internal/controller/cacherule"
+	"github.com/qbeast-io/provider-azureext/internal/controller/credentialset"
 	ctrl "sigs.k8s.io/controller-runtime"
 
-	"github.com/crossplane/provider-template/internal/controller/config"
-	"github.com/crossplane/provider-template/internal/controller/mytype"
+	"github.com/qbeast-io/provider-azureext/internal/controller/config"
 )
 
-// Setup creates all Template controllers with the supplied logger and adds them to
+// Setup creates all AzureExt controllers with the supplied logger and adds them to
 // the supplied manager.
 func Setup(mgr ctrl.Manager, o controller.Options) error {
 	for _, setup := range []func(ctrl.Manager, controller.Options) error{
 		config.Setup,
-		mytype.Setup,
+		credentialset.Setup,
+		cacherule.Setup,
 	} {
 		if err := setup(mgr, o); err != nil {
 			return err

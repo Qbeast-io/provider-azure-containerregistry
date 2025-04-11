@@ -4,18 +4,18 @@ kind: CustomResourceDefinition
 metadata:
   annotations:
     controller-gen.kubebuilder.io/version: v0.14.0
-  name: mytypes.sample.template.crossplane.io
+  name: cacherules.containerregistry.azureext.crossplane.io
 spec:
-  group: sample.template.crossplane.io
+  group: containerregistry.azureext.crossplane.io
   names:
     categories:
     - crossplane
     - managed
-    - template
-    kind: MyType
-    listKind: MyTypeList
-    plural: mytypes
-    singular: mytype
+    - azureext
+    kind: CacheRule
+    listKind: CacheRuleList
+    plural: cacherules
+    singular: cacherule
   scope: Cluster
   versions:
   - additionalPrinterColumns:
@@ -34,7 +34,7 @@ spec:
     name: v1alpha1
     schema:
       openAPIV3Schema:
-        description: A MyType is an example API type.
+        description: A CacheRule is an example API type.
         properties:
           apiVersion:
             description: |-
@@ -54,7 +54,7 @@ spec:
           metadata:
             type: object
           spec:
-            description: A MyTypeSpec defines the desired state of a MyType.
+            description: A CacheRuleSpec defines the desired state of a CacheRule.
             properties:
               deletionPolicy:
                 default: Delete
@@ -71,12 +71,29 @@ spec:
                 - Delete
                 type: string
               forProvider:
-                description: MyTypeParameters are the configurable fields of a MyType.
+                description: CacheRuleParameters are the configurable fields of a
+                  CacheRule.
                 properties:
-                  configurableField:
+                  cacheRuleName:
+                    type: string
+                  credentialSetResourceId:
+                    type: string
+                  credentialSetResourceName:
+                    type: string
+                  registryName:
+                    type: string
+                  resourceGroupName:
+                    type: string
+                  sourceRepository:
+                    type: string
+                  targetRepository:
                     type: string
                 required:
-                - configurableField
+                - cacheRuleName
+                - registryName
+                - resourceGroupName
+                - sourceRepository
+                - targetRepository
                 type: object
               managementPolicies:
                 default:
@@ -246,17 +263,44 @@ spec:
             - forProvider
             type: object
           status:
-            description: A MyTypeStatus represents the observed state of a MyType.
+            description: A CacheRuleStatus represents the observed state of a CacheRule.
             properties:
               atProvider:
-                description: MyTypeObservation are the observable fields of a MyType.
+                description: CacheRuleObservation are the observable fields of a CacheRule.
                 properties:
-                  configurableField:
+                  azureApiVersion:
+                    description: The Azure API version of the resource.
                     type: string
-                  observableField:
+                  createdAt:
                     type: string
-                required:
-                - configurableField
+                  createdBy:
+                    type: string
+                  createdByType:
+                    type: string
+                  creationDate:
+                    description: The creation date of the cache rule.
+                    type: string
+                  id:
+                    description: The provider-assigned unique ID for this managed
+                      resource.
+                    type: string
+                  lastModifiedAt:
+                    type: string
+                  lastModifiedBy:
+                    type: string
+                  lastModifiedByType:
+                    type: string
+                  name:
+                    description: The name of the resource.
+                    type: string
+                  provisioningState:
+                    description: Provisioning state of the resource.
+                    type: string
+                  ready:
+                    type: boolean
+                  type:
+                    description: The type of the resource.
+                    type: string
                 type: object
               conditions:
                 description: Conditions of the resource.
